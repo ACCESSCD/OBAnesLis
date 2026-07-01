@@ -82,25 +82,20 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .header-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(15,61,30,.72) 0%,
-    rgba(15,61,30,.25) 60%,
-    transparent 100%
-  );
+  background: transparent;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 .header-overlay-inner {
   padding: 28px 40px;
-  max-width: 600px;
+  max-width: 52%;
 }
 .header-dept {
   font-size: .78rem;
   font-weight: 600;
   letter-spacing: .10em;
   text-transform: uppercase;
-  color: var(--green-300);
+  color: var(--green-700);
   display: block;
   margin-bottom: 4px;
 }
@@ -108,16 +103,16 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   font-family: var(--font-sans);
   font-size: clamp(1.5rem, 3vw, 2.4rem);
   font-weight: 800;
-  color: var(--white);
+  color: var(--green-900);
   line-height: 1.15;
   margin-bottom: 4px;
   letter-spacing: -.01em;
-  text-shadow: 0 2px 12px rgba(0,0,0,.35);
+  text-shadow: none;
 }
 .header-subtitle {
   font-size: .95rem;
-  font-weight: 400;
-  color: rgba(255,255,255,.80);
+  font-weight: 500;
+  color: var(--gray-600);
 }
 
 /* ---- Tab Navigation ---- */
