@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Obstetric Anesthesia TLVMC – Reference Portal</title>
+  <meta name="description" content="Obstetric Anesthesia Reference Portal for Tel Aviv Medical Center – Literature, Protocols, and Rotation Instructions for fellows and residents." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S1Y8KN2MMF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-S1Y8KN2MMF');
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ========== HEADER / BANNER ========== -->
+  <header class="site-header">
+    <div class="header-banner">
+      <img src="design.png" alt="Obstetric Anesthesia TLVMC – Fellowship & Residency Syllabus" class="header-img" />
+      <div class="header-overlay">
+        <div class="header-overlay-inner">
+          <span class="header-dept">Division of Anesthesia, Critical Care and Pain</span>
+          <h1 class="header-title">Obstetric Anesthesia TLVMC</h1>
+          <p class="header-subtitle">Fellowship &amp; Residency Reference Portal</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== NAVIGATION TABS ========== -->
+  <nav class="tab-nav" role="navigation" aria-label="Main navigation">
+    <div class="tab-nav-inner">
+      <button class="tab-btn active" data-tab="home" id="tab-home" aria-selected="true" role="tab">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </button>
+      <button class="tab-btn" data-tab="sources" id="tab-sources" aria-selected="false" role="tab">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Sources
+      </button>
+      <button class="tab-btn" data-tab="protocols" id="tab-protocols" aria-selected="false" role="tab">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Protocols
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="main-content">
+
+    <!-- ===== HOME TAB ===== -->
+    <section class="tab-panel active" id="panel-home" role="tabpanel" aria-labelledby="tab-home">
+      <div class="home-intro">
+        <div class="home-intro-text">
+          <div class="section-badge">Welcome</div>
+          <h2 class="section-title">Rotation Resource Hub</h2>
+          <p class="section-desc">
+            This portal provides fellows and residents with curated literature, departmental protocols, and rotation materials for the Obstetric Anesthesia service at Tel Aviv Sourasky Medical Center.
+          </p>
+        </div>
+      </div>
+
+      <!-- Rotation Instructions Card -->
+      <div class="feature-card-wrapper">
+        <div class="feature-card" id="card-rotation">
+          <div class="feature-card-left">
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="feature-icon">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </div>
+            <div class="feature-card-body">
+              <div class="feature-tag">Rotation Document</div>
+              <h3 class="feature-card-title">OB Anesthesia Rotation Instructions</h3>
+              <p class="feature-card-summary">
+                A comprehensive guide for fellows and residents rotating through Labor and Delivery at Tel Aviv Sourasky Medical Center, outlining clinical expectations, educational goals, and departmental protocols for the obstetric anesthesia rotation.
+              </p>
+            </div>
+          </div>
+          <div class="feature-card-actions">
+            <a
+              href="OB Anesthesia Rotation Instructions.docx"
+              download
+              class="btn btn-primary"
+              id="dl-rotation-instructions"
+              onclick="trackDownload('OB Anesthesia Rotation Instructions.docx')"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Links Grid -->
+      <div class="quick-links-section">
+        <h3 class="quick-links-title">Quick Access</h3>
+        <div class="quick-grid">
+          <button class="quick-card" onclick="switchTab('sources')" id="quick-sources">
+            <div class="quick-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <span class="quick-card-label">Sources</span>
+            <span class="quick-card-count">28 documents</span>
+          </button>
+          <button class="quick-card" onclick="switchTab('protocols')" id="quick-protocols">
+            <div class="quick-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            </div>
+            <span class="quick-card-label">Protocols</span>
+            <span class="quick-card-count">TLVMC guidelines</span>
+          </button>
+          <a class="quick-card" href="https://accesscd.github.io/ManualLysis/" target="_blank" rel="noopener" id="quick-manual-lysis" onclick="trackExternal('ManualLysis App')">
+            <div class="quick-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+            </div>
+            <span class="quick-card-label">Manual Lysis App</span>
+            <span class="quick-card-count">accesscd.github.io ↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SOURCES TAB ===== -->
+    <section class="tab-panel" id="panel-sources" role="tabpanel" aria-labelledby="tab-sources">
+      <div class="panel-header">
+        <div class="section-badge">Reference Library</div>
+        <h2 class="section-title">Literature Sources</h2>
+        <p class="section-desc">Click any card to open the full PDF. All documents are hosted locally within this site.</p>
+        <div class="search-bar-wrap">
+          <div class="search-bar">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="literature-search" placeholder="Search titles and summaries…" class="search-input" oninput="filterLiterature(this.value)" />
+          </div>
+          <span class="doc-count" id="doc-count-label">28 documents</span>
+        </div>
+      </div>
+      <div class="cards-grid" id="literature-grid">
+        <!-- Injected by JS -->
+      </div>
+      <p class="no-results hidden" id="no-results-msg">No documents match your search.</p>
+    </section>
+
+    <!-- ===== PROTOCOLS TAB ===== -->
+    <section class="tab-panel" id="panel-protocols" role="tabpanel" aria-labelledby="tab-protocols">
+      <div class="panel-header">
+        <div class="section-badge">Clinical Protocols</div>
+        <h2 class="section-title">Departmental Protocols</h2>
+        <p class="section-desc">TLVMC obstetric anesthesia clinical protocols and quick-reference materials.</p>
+      </div>
+
+      <!-- App Link Banner -->
+      <div class="app-banner" id="app-banner-manuallysis">
+        <div class="app-banner-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        </div>
+        <div class="app-banner-text">
+          <h3 class="app-banner-title">Manual Lysis Protocol – Interactive App</h3>
+          <p class="app-banner-desc">Access the interactive clinical decision-support application for Manual Lysis / Retained Placenta management at Tel Aviv Medical Center.</p>
+        </div>
+        <a
+          href="https://accesscd.github.io/ManualLysis/"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-accent"
+          id="open-manuallysis-app"
+          onclick="trackExternal('ManualLysis App - Protocols Tab')"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Open App
+        </a>
+      </div>
+
+      <div class="cards-grid" id="protocols-grid">
+        <!-- Injected by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <p class="footer-name">Obstetric Anesthesia TLVMC</p>
+        <p class="footer-sub">Division of Anesthesia, Critical Care and Pain · Tel Aviv Sourasky Medical Center</p>
+      </div>
+      <div class="footer-right">
+        <p class="footer-note">For educational use by clinical trainees only.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
