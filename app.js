@@ -347,7 +347,7 @@ function renderLiteratureCards(items) {
       <div class="doc-card-header">
         <div class="doc-card-pdf-icon">${pdfIconSVG()}</div>
         <div>
-          <div class="doc-card-type">PDF · Literature${hasMcq ? ' <span class="mcq-badge">MCQs</span>' : ''}</div>
+          <div class="doc-card-type">PDF · Literature</div>
         </div>
       </div>
       <div class="doc-card-body">
