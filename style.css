@@ -656,3 +656,347 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   .quick-grid { grid-template-columns: 1fr 1fr; }
   .footer-inner { flex-direction: column; }
 }
+
+
+/* ============================================================
+   MCQ FEATURE STYLES
+   ============================================================ */
+
+/* ---- MCQ badge on card type label ---- */
+.mcq-badge {
+  display: inline-block;
+  background: var(--green-700);
+  color: white;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 100px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* ---- MCQ button on card footer ---- */
+.btn-mcq {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 13px;
+  background: var(--green-50);
+  color: var(--accent-dark);
+  border: 1.5px solid var(--green-300);
+  border-radius: var(--radius-md);
+  font-size: .80rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.btn-mcq:hover {
+  background: var(--green-100);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(34,151,74,.20);
+}
+.btn-mcq-icon { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* Make footer a flex row when MCQ button present */
+.doc-card--has-mcq .doc-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ---- MCQ Overlay ---- */
+.mcq-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 30, 20, .70);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn .2s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* ---- MCQ Modal Box ---- */
+.mcq-modal {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 620px;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(0,0,0,.30);
+  animation: slideUp .28s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Modal Header ---- */
+.mcq-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 28px 16px;
+  border-bottom: 1px solid var(--gray-100);
+  background: linear-gradient(135deg, var(--green-50) 0%, var(--white) 100%);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+.mcq-modal-meta { flex: 1; }
+.mcq-badge-lg {
+  display: inline-block;
+  background: var(--green-700);
+  color: white;
+  font-size: .70rem;
+  font-weight: 700;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 8px;
+}
+.mcq-modal-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  line-height: 1.35;
+}
+.mcq-close-btn {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  background: var(--gray-100);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--gray-500);
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+  margin-top: 2px;
+}
+.mcq-close-btn:hover { background: var(--gray-200); color: var(--gray-800); }
+
+/* ---- Modal Body ---- */
+.mcq-modal-body {
+  padding: 24px 28px 28px;
+  flex: 1;
+}
+
+/* ---- Progress ---- */
+.mcq-progress-wrap { margin-bottom: 20px; }
+.mcq-progress-label {
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--gray-400);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.mcq-progress-bar-bg {
+  height: 5px;
+  background: var(--gray-100);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.mcq-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green-500), var(--green-600));
+  border-radius: 100px;
+  transition: width .4s ease;
+}
+
+/* ---- Question Card ---- */
+.mcq-question-card {}
+.mcq-question-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+/* ---- Answer Options ---- */
+.mcq-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.mcq-option-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 16px;
+  background: var(--white);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition);
+  font-size: .92rem;
+  color: var(--gray-800);
+  width: 100%;
+}
+.mcq-option-btn:not([disabled]):hover {
+  border-color: var(--accent);
+  background: var(--green-50);
+  transform: translateX(3px);
+}
+.mcq-option-key {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  background: var(--gray-100);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .78rem;
+  font-weight: 800;
+  color: var(--gray-600);
+  transition: all var(--transition);
+}
+.mcq-option-text { line-height: 1.45; padding-top: 3px; }
+
+/* Correct answer */
+.mcq-option--correct {
+  border-color: #22a05a !important;
+  background: #f0fdf6 !important;
+}
+.mcq-option--correct .mcq-option-key {
+  background: #22a05a;
+  color: white;
+}
+
+/* Incorrect selection */
+.mcq-option--incorrect {
+  border-color: #e53e3e !important;
+  background: #fff5f5 !important;
+}
+.mcq-option--incorrect .mcq-option-key {
+  background: #e53e3e;
+  color: white;
+}
+
+/* Unchosen options when answered */
+.mcq-option--dimmed {
+  opacity: .48;
+}
+
+/* ---- Explanation ---- */
+.mcq-explanation {
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border-left: 4px solid;
+}
+.mcq-explanation--correct {
+  background: #f0fdf6;
+  border-color: #22a05a;
+}
+.mcq-explanation--incorrect {
+  background: #fff5f5;
+  border-color: #e53e3e;
+}
+.mcq-explanation-label {
+  font-size: .85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  color: var(--gray-800);
+}
+.mcq-explanation--correct .mcq-explanation-label { color: #166534; }
+.mcq-explanation--incorrect .mcq-explanation-label { color: #9b1c1c; }
+.mcq-expl-icon { width: 16px; height: 16px; flex-shrink: 0; }
+.mcq-explanation-text {
+  font-size: .88rem;
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+
+/* ---- Navigation ---- */
+.mcq-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+}
+.mcq-nav-btn { min-width: 140px; justify-content: center; }
+
+/* ---- Results Screen ---- */
+.mcq-results {}
+.mcq-results-score {
+  text-align: center;
+  padding: 28px 20px 22px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 22px;
+}
+.mcq-results-score--perfect { background: linear-gradient(135deg, #f0fdf6, #dcfce7); border: 2px solid #22a05a; }
+.mcq-results-score--good    { background: linear-gradient(135deg, var(--green-50), var(--green-100)); border: 2px solid var(--green-400); }
+.mcq-results-score--retry   { background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 2px solid #f97316; }
+.mcq-score-number {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--green-900);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.mcq-results-score--retry .mcq-score-number { color: #9a3412; }
+.mcq-score-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+/* ---- Results Breakdown ---- */
+.mcq-results-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.mcq-result-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: .86rem;
+}
+.mcq-result-row--correct { background: #f0fdf6; color: #166534; }
+.mcq-result-row--incorrect { background: #fff5f5; color: #9b1c1c; }
+.mcq-result-icon { font-weight: 800; flex-shrink: 0; font-size: .95rem; }
+.mcq-result-q { line-height: 1.45; }
+
+/* ---- Results Actions ---- */
+.mcq-results-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .mcq-modal { border-radius: var(--radius-lg) var(--radius-lg) 0 0; max-height: 92vh; }
+  .mcq-overlay { align-items: flex-end; padding: 0; }
+  .mcq-modal-header { padding: 20px 20px 14px; }
+  .mcq-modal-body { padding: 18px 20px 24px; }
+  .mcq-nav { flex-direction: column-reverse; }
+  .mcq-nav-btn { width: 100%; }
+  .mcq-results-actions { flex-direction: column-reverse; }
+  .mcq-results-actions .btn { width: 100%; justify-content: center; }
+}

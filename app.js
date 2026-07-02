@@ -162,6 +162,82 @@ const METADATA = {
   ]
 };
 
+// ── MCQ Data (keyed by PDF filename) ──────────────────────────────────
+const MCQ_DATA = {
+  "Bauer SOAP_Thrombocytopenia_Consensus_Statement_FINAL.pdf": {
+    "title": "SOAP Consensus: Neuraxial Procedures in Thrombocytopenia",
+    "description": "Reading focus: rationale for neuraxial anesthesia, the platelet cutoff, and when it may be reasonable to go lower.",
+    "mcqs": [
+      {
+        "question": "What platelet count is generally considered low risk for neuraxial procedures in obstetric thrombocytopenia?",
+        "options": { "A": "≥50,000 × 10⁶/L", "B": "≥70,000 × 10⁶/L", "C": "≥100,000 × 10⁶/L", "D": "≥150,000 × 10⁶/L" },
+        "correct": "B",
+        "explanation": "The SOAP consensus statement supports ≥70,000 × 10⁶/L as the platelet count at which the risk of spinal epidural hematoma is likely to be very low in appropriate obstetric patients."
+      },
+      {
+        "question": "When might neuraxial anesthesia be considered below 70,000 × 10⁶/L?",
+        "options": { "A": "Never", "B": "Only if platelet function testing is normal", "C": "When competing risks make avoiding general anesthesia important", "D": "Only after prophylactic platelet transfusion" },
+        "correct": "C",
+        "explanation": "In selected cases, particularly around 50,000–70,000 × 10⁶/L, neuraxial anesthesia may be considered if competing risks make avoidance of general anesthesia important."
+      },
+      {
+        "question": "Why is the decision not based on the platelet count alone?",
+        "options": { "A": "Platelet counts are irrelevant in pregnancy", "B": "General anesthesia may also carry important maternal and fetal risks", "C": "Spinal hematoma is common in obstetrics", "D": "Platelet transfusion removes all neuraxial risk" },
+        "correct": "B",
+        "explanation": "The decision should include platelet count, etiology, trend, bleeding history, urgency, airway risk, and patient preferences."
+      }
+    ]
+  },
+  "Spinal Hypotension Consensus Statement.pdf": {
+    "title": "International Consensus: Vasopressor Management of Spinal Hypotension",
+    "description": "Reading focus: why prophylaxis is used, blood pressure targets, and when prophylaxis should be modified.",
+    "mcqs": [
+      {
+        "question": "Why are vasopressors commonly used prophylactically after spinal anesthesia for cesarean delivery?",
+        "options": { "A": "Hypotension is rare but dangerous", "B": "Hypotension is frequent, predictable, and often preventable", "C": "Vasopressors improve the quality of surgical anesthesia", "D": "Vasopressors prevent failed spinal anesthesia" },
+        "correct": "B",
+        "explanation": "Spinal anesthesia commonly causes hypotension during cesarean delivery. Prophylactic vasopressors are used because hypotension is frequent and predictable, and proactive treatment can reduce hypotension and associated maternal symptoms."
+      },
+      {
+        "question": "What blood pressure target is recommended?",
+        "options": { "A": "Maintain systolic BP above 70% baseline", "B": "Maintain systolic BP at ≥90% baseline and avoid <80% baseline", "C": "Treat only if systolic BP falls below 80 mmHg", "D": "Treat only if the patient becomes symptomatic" },
+        "correct": "B",
+        "explanation": "The consensus statement recommends maintaining systolic arterial pressure at ≥90% of baseline and avoiding a fall to <80% of baseline."
+      },
+      {
+        "question": "When might prophylactic vasopressor infusion not be required, or be started lower?",
+        "options": { "A": "In pre-eclampsia", "B": "In elective cesarean delivery", "C": "In twin pregnancy", "D": "In patients with nausea" },
+        "correct": "A",
+        "explanation": "Women with pre-eclampsia develop less hypotension after spinal anesthesia. If prophylaxis is used, it may need a lower starting rate."
+      }
+    ]
+  },
+  "Intraoperative CD Pain.pdf": {
+    "title": "Pain During Cesarean Delivery Under Neuraxial Anesthesia",
+    "description": "Reading focus: believe the patient, do not dismiss reported pain, and have a structured plan if the block is insufficient or fails.",
+    "mcqs": [
+      {
+        "question": "What is the first principle when a patient reports pain during cesarean delivery?",
+        "options": { "A": "Reassure her that pressure is normal", "B": "Believe her and act", "C": "Wait until delivery is complete", "D": "Increase oxytocin" },
+        "correct": "B",
+        "explanation": "Pain, anxiety, and discomfort expressed by the patient must be taken seriously. The clinician should listen, believe, and respond."
+      },
+      {
+        "question": "What should be in place before incision?",
+        "options": { "A": "A fixed plan to avoid general anesthesia", "B": "A rescue plan if the block is insufficient", "C": "Routine intravenous opioids for all patients", "D": "No further testing once the spinal is inserted" },
+        "correct": "B",
+        "explanation": "Before incision, the block should be assessed appropriately and the team should have a clear plan for what to do if anesthesia is insufficient."
+      },
+      {
+        "question": "If pain occurs after surgery has started, what is the best next step?",
+        "options": { "A": "Continue surgery without interruption", "B": "Ask the obstetrician to hurry and ignore the pain", "C": "Communicate and select a rescue strategy together, including offering general anesthesia", "D": "Tell the patient pain is expected" },
+        "correct": "C",
+        "explanation": "The response should be structured and shared: believe the patient, communicate with the obstetric team, and choose a rescue strategy together — options may include supplementation or conversion to general anesthesia."
+      }
+    ]
+  }
+};
+
 // ── Tab Navigation ─────────────────────────────────────────────────────
 function switchTab(tabName) {
   // Deactivate all
@@ -256,12 +332,13 @@ function renderLiteratureCards(items) {
     const cardId = 'lit-card-' + slugify(doc.filename);
     const folder = 'Literature/';
     const href = folder + encodeURIComponent(doc.filename);
+    const hasMcq = !!MCQ_DATA[doc.filename];
 
     const card = document.createElement('a');
     card.href = href;
     card.target = '_blank';
     card.rel = 'noopener';
-    card.className = 'doc-card';
+    card.className = 'doc-card' + (hasMcq ? ' doc-card--has-mcq' : '');
     card.id = cardId;
     card.setAttribute('aria-label', 'Open ' + doc.title);
     card.setAttribute('data-title', doc.title);
@@ -270,7 +347,7 @@ function renderLiteratureCards(items) {
       <div class="doc-card-header">
         <div class="doc-card-pdf-icon">${pdfIconSVG()}</div>
         <div>
-          <div class="doc-card-type">PDF · Literature</div>
+          <div class="doc-card-type">PDF · Literature${hasMcq ? ' <span class="mcq-badge">MCQs</span>' : ''}</div>
         </div>
       </div>
       <div class="doc-card-body">
@@ -281,12 +358,29 @@ function renderLiteratureCards(items) {
         <span class="doc-card-open-link">
           Open PDF ${externalLinkSVG()}
         </span>
+        ${hasMcq ? `<button class="btn-mcq" id="mcq-btn-${slugify(doc.filename)}" aria-label="Reading MCQs for ${doc.title}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-mcq-icon"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Reading MCQs
+        </button>` : ''}
       </div>
     `;
 
     card.addEventListener('click', function() {
       trackDocOpen(doc.filename, doc.title, 'literature');
     });
+
+    // Attach MCQ button handler (must stop propagation so card link doesn't fire)
+    if (hasMcq) {
+      const mcqBtn = card.querySelector('.btn-mcq');
+      mcqBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openMCQModal(doc.filename);
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'mcq_open', { document_filename: doc.filename, document_title: doc.title });
+        }
+      });
+    }
 
     grid.appendChild(card);
   });
@@ -414,3 +508,169 @@ document.addEventListener('DOMContentLoaded', function() {
   const label = document.getElementById('doc-count-label');
   if (label) label.textContent = allLiterature.length + ' documents';
 });
+
+
+// ── MCQ Modal ──────────────────────────────────────────────────────────
+function openMCQModal(filename) {
+  const data = MCQ_DATA[filename];
+  if (!data) return;
+
+  let currentQ = 0;
+  let score = 0;
+  let answered = new Array(data.mcqs.length).fill(null);
+
+  const existing = document.getElementById('mcq-modal-overlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'mcq-overlay';
+  overlay.id = 'mcq-modal-overlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+
+  overlay.innerHTML = `
+    <div class="mcq-modal" id="mcq-modal-box">
+      <div class="mcq-modal-header">
+        <div class="mcq-modal-meta">
+          <span class="mcq-badge-lg">Reading MCQs</span>
+          <h2 class="mcq-modal-title">${data.title}</h2>
+        </div>
+        <button class="mcq-close-btn" id="mcq-close-btn" aria-label="Close">&#x2715;</button>
+      </div>
+      <div class="mcq-modal-body" id="mcq-modal-body"></div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  document.body.style.overflow = 'hidden';
+
+  document.getElementById('mcq-close-btn').addEventListener('click', closeMCQ);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) closeMCQ(); });
+  document.addEventListener('keydown', escHandler);
+
+  renderQuestion();
+
+  function renderQuestion() {
+    const body = document.getElementById('mcq-modal-body');
+    const q = data.mcqs[currentQ];
+    const total = data.mcqs.length;
+    const pct = Math.round((currentQ / total) * 100);
+    const chosen = answered[currentQ];
+
+    const optionKeys = Object.keys(q.options);
+    const optionsHTML = optionKeys.map(function(key) {
+      var val = q.options[key];
+      var cls = chosen ? getOptionClass(key, q.correct, chosen) : '';
+      var dis = chosen ? 'disabled' : '';
+      return '<button class="mcq-option-btn' + cls + '" data-key="' + key + '" ' + dis + '>' +
+        '<span class="mcq-option-key">' + key + '</span>' +
+        '<span class="mcq-option-text">' + val + '</span>' +
+        '</button>';
+    }).join('');
+
+    var explanationHTML = '';
+    if (chosen) {
+      var isCorrect = chosen === q.correct;
+      var iconCorrect = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="mcq-expl-icon"><polyline points="20 6 9 17 4 12"/></svg>';
+      var iconWrong = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="mcq-expl-icon"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      var labelHTML = isCorrect
+        ? iconCorrect + ' Correct'
+        : iconWrong + ' Incorrect &mdash; answer is <strong>' + q.correct + '</strong>';
+      var prevBtn = currentQ > 0 ? '<button class="btn btn-outline mcq-nav-btn" id="mcq-prev">&#8592; Previous</button>' : '<span></span>';
+      var nextBtn = currentQ < total - 1
+        ? '<button class="btn btn-primary mcq-nav-btn" id="mcq-next">Next Question &#8594;</button>'
+        : '<button class="btn btn-primary mcq-nav-btn" id="mcq-finish">See Results</button>';
+      explanationHTML = '<div class="mcq-explanation ' + (isCorrect ? 'mcq-explanation--correct' : 'mcq-explanation--incorrect') + '">' +
+        '<div class="mcq-explanation-label">' + labelHTML + '</div>' +
+        '<p class="mcq-explanation-text">' + q.explanation + '</p>' +
+        '</div>' +
+        '<div class="mcq-nav">' + prevBtn + nextBtn + '</div>';
+    }
+
+    body.innerHTML = '<div class="mcq-progress-wrap">' +
+      '<div class="mcq-progress-label">Question ' + (currentQ + 1) + ' of ' + total + '</div>' +
+      '<div class="mcq-progress-bar-bg"><div class="mcq-progress-bar-fill" style="width:' + pct + '%"></div></div>' +
+      '</div>' +
+      '<div class="mcq-question-card">' +
+      '<p class="mcq-question-text">' + q.question + '</p>' +
+      '<div class="mcq-options" id="mcq-options">' + optionsHTML + '</div>' +
+      explanationHTML +
+      '</div>';
+
+    if (!chosen) {
+      body.querySelectorAll('.mcq-option-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var pick = this.dataset.key;
+          answered[currentQ] = pick;
+          if (pick === q.correct) score++;
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'mcq_answer', { document_filename: filename, question_index: currentQ + 1, chosen_answer: pick, correct: pick === q.correct });
+          }
+          renderQuestion();
+        });
+      });
+    } else {
+      var prev = body.querySelector('#mcq-prev');
+      var next = body.querySelector('#mcq-next');
+      var finish = body.querySelector('#mcq-finish');
+      if (prev) prev.addEventListener('click', function() { currentQ--; renderQuestion(); });
+      if (next) next.addEventListener('click', function() { currentQ++; renderQuestion(); });
+      if (finish) finish.addEventListener('click', renderResults);
+    }
+  }
+
+  function getOptionClass(key, correct, chosen) {
+    if (key === correct) return ' mcq-option--correct';
+    if (key === chosen && chosen !== correct) return ' mcq-option--incorrect';
+    return ' mcq-option--dimmed';
+  }
+
+  function renderResults() {
+    var body = document.getElementById('mcq-modal-body');
+    var total = data.mcqs.length;
+    var pct = Math.round((score / total) * 100);
+    var perfect = score === total;
+    var good = score >= Math.ceil(total * 0.67);
+
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'mcq_complete', { document_filename: filename, score: score, total: total, percent: pct });
+    }
+
+    var scoreClass = perfect ? 'mcq-results-score--perfect' : good ? 'mcq-results-score--good' : 'mcq-results-score--retry';
+    var scoreLabel = perfect ? '&#127881; Perfect score!' : good ? '&#10003; Well done' : '&#128218; Review the paper and try again';
+
+    var breakdownHTML = data.mcqs.map(function(q, i) {
+      var ok = answered[i] === q.correct;
+      return '<div class="mcq-result-row ' + (ok ? 'mcq-result-row--correct' : 'mcq-result-row--incorrect') + '">' +
+        '<span class="mcq-result-icon">' + (ok ? '&#10003;' : '&#10007;') + '</span>' +
+        '<span class="mcq-result-q">Q' + (i + 1) + ': ' + q.question + '</span>' +
+        '</div>';
+    }).join('');
+
+    body.innerHTML = '<div class="mcq-results">' +
+      '<div class="mcq-results-score ' + scoreClass + '">' +
+      '<div class="mcq-score-number">' + score + ' / ' + total + '</div>' +
+      '<div class="mcq-score-label">' + scoreLabel + '</div>' +
+      '</div>' +
+      '<div class="mcq-results-breakdown">' + breakdownHTML + '</div>' +
+      '<div class="mcq-results-actions">' +
+      '<button class="btn btn-outline" id="mcq-retry-btn">Try Again</button>' +
+      '<button class="btn btn-primary" id="mcq-done-btn">Done</button>' +
+      '</div></div>';
+
+    body.querySelector('#mcq-retry-btn').addEventListener('click', function() {
+      currentQ = 0; score = 0; answered = new Array(data.mcqs.length).fill(null);
+      renderQuestion();
+    });
+    body.querySelector('#mcq-done-btn').addEventListener('click', closeMCQ);
+  }
+
+  function closeMCQ() {
+    var el = document.getElementById('mcq-modal-overlay');
+    if (el) el.remove();
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', escHandler);
+  }
+
+  function escHandler(e) { if (e.key === 'Escape') closeMCQ(); }
+}
