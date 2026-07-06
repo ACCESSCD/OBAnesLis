@@ -326,65 +326,56 @@ function renderLiteratureCards(items) {
   if (!grid) return;
   grid.innerHTML = '';
 
-  items.forEach((doc, idx) => {
-    const safeTitle = doc.title.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-    const safeSummary = doc.summary.replace(/&/g, '&amp;');
-    const cardId = 'lit-card-' + slugify(doc.filename);
-    const folder = 'Literature/';
-    const href = folder + encodeURIComponent(doc.filename);
-    const hasMcq = !!MCQ_DATA[doc.filename];
-
-    const card = document.createElement('a');
-    card.href = href;
-    card.target = '_blank';
-    card.rel = 'noopener';
-    card.className = 'doc-card' + (hasMcq ? ' doc-card--has-mcq' : '');
-    card.id = cardId;
-    card.setAttribute('aria-label', 'Open ' + doc.title);
-    card.setAttribute('data-title', doc.title);
-    card.setAttribute('data-summary', doc.summary.toLowerCase());
-    card.innerHTML = `
-      <div class="doc-card-header">
-        <div class="doc-card-pdf-icon">${pdfIconSVG()}</div>
-        <div>
-          <div class="doc-card-type">PDF · Literature</div>
-        </div>
-      </div>
-      <div class="doc-card-body">
-        <h3 class="doc-card-title">${safeTitle}</h3>
-        <p class="doc-card-summary">${safeSummary}</p>
-      </div>
-      <div class="doc-card-footer">
-        <span class="doc-card-open-link">
-          Open PDF ${externalLinkSVG()}
-        </span>
-        ${hasMcq ? `<button class="btn-mcq" id="mcq-btn-${slugify(doc.filename)}" aria-label="Reading MCQs for ${doc.title}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-mcq-icon"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          Reading MCQs
-        </button>` : ''}
-      </div>
-    `;
-
-    card.addEventListener('click', function() {
-      trackDocOpen(doc.filename, doc.title, 'literature');
-    });
-
-    // Attach MCQ button handler (must stop propagation so card link doesn't fire)
-    if (hasMcq) {
-      const mcqBtn = card.querySelector('.btn-mcq');
-      mcqBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        openMCQModal(doc.filename);
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'mcq_open', { document_filename: doc.filename, document_title: doc.title });
-        }
-      });
-    }
-
-    grid.appendChild(card);
-  });
-}
+  items.forEach((doc, idx) => {
+    const safeTitle = doc.title.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    const rowId = 'lit-row-' + slugify(doc.filename);
+    const folder = 'Literature/';
+    const href = folder + encodeURIComponent(doc.filename);
+    const hasMcq = !!MCQ_DATA[doc.filename];
+
+    const row = document.createElement('a');
+    row.href = href;
+    row.target = '_blank';
+    row.rel = 'noopener';
+    row.className = 'lit-row' + (hasMcq ? ' lit-row--has-mcq' : '');
+    row.id = rowId;
+    row.setAttribute('aria-label', 'Open ' + doc.title);
+    row.setAttribute('data-title', doc.title);
+    row.setAttribute('data-summary', doc.summary.toLowerCase());
+    row.innerHTML =
+      '<div class="lit-row-left">' +
+        '<div class="lit-row-icon">' + pdfIconSVG() + '</div>' +
+        '<span class="lit-row-title">' + safeTitle + '</span>' +
+      '</div>' +
+      '<div class="lit-row-right">' +
+        (hasMcq
+          ? '<button class="btn-mcq btn-mcq--sm" id="mcq-btn-' + slugify(doc.filename) + '" aria-label="Reading MCQs for ' + doc.title + '">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-mcq-icon"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
+              '<span class="btn-mcq-label">MCQs</span>' +
+            '</button>'
+          : '') +
+        '<svg class="lit-row-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>' +
+      '</div>';
+
+    row.addEventListener('click', function() {
+      trackDocOpen(doc.filename, doc.title, 'literature');
+    });
+
+    if (hasMcq) {
+      const mcqBtn = row.querySelector('.btn-mcq');
+      mcqBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openMCQModal(doc.filename);
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'mcq_open', { document_filename: doc.filename, document_title: doc.title });
+        }
+      });
+    }
+
+    grid.appendChild(row);
+  });
+}
 
 // ── Search / Filter ────────────────────────────────────────────────────
 let allLiterature = METADATA.literature;

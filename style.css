@@ -1000,3 +1000,122 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   .mcq-results-actions { flex-direction: column-reverse; }
   .mcq-results-actions .btn { width: 100%; justify-content: center; }
 }
+
+
+/* ============================================================
+   LITERATURE LIST LAYOUT  (replaces card grid for Sources tab)
+   ============================================================ */
+
+/* Override the shared .cards-grid only for the literature list */
+#literature-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---- Individual row ---- */
+.lit-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 18px;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid var(--gray-100);
+  transition: background var(--transition), padding-left var(--transition);
+  min-height: 48px;          /* comfortable touch target */
+  cursor: pointer;
+}
+.lit-row:last-child { border-bottom: none; }
+
+.lit-row:hover {
+  background: var(--green-50);
+  padding-left: 22px;        /* subtle slide-in on hover */
+}
+
+/* ---- Left: icon + title ---- */
+.lit-row-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;              /* allows title to truncate */
+}
+
+.lit-row-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lit-row-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: white;
+}
+
+.lit-row-title {
+  font-size: .91rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  line-height: 1.35;
+  /* allow wrapping on narrow screens */
+}
+
+/* ---- Right: MCQ button + chevron ---- */
+.lit-row-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.lit-row-arrow {
+  width: 16px;
+  height: 16px;
+  stroke: var(--gray-300);
+  flex-shrink: 0;
+  transition: stroke var(--transition), transform var(--transition);
+}
+.lit-row:hover .lit-row-arrow {
+  stroke: var(--accent);
+  transform: translateX(2px);
+}
+
+/* ---- Compact MCQ button variant ---- */
+.btn-mcq--sm {
+  padding: 4px 10px;
+  font-size: .75rem;
+  gap: 4px;
+}
+.btn-mcq--sm .btn-mcq-icon { width: 12px; height: 12px; }
+.btn-mcq--sm .btn-mcq-label { /* text visible on tablet+ */ }
+
+/* On very narrow screens, hide label text to save space */
+@media (max-width: 480px) {
+  .btn-mcq--sm .btn-mcq-label { display: none; }
+  .btn-mcq--sm { padding: 5px 8px; }
+  .lit-row { padding: 10px 14px; }
+  .lit-row:hover { padding-left: 14px; }   /* disable slide on touch */
+  .lit-row-title { font-size: .87rem; }
+}
+
+/* Zebra-stripe for easier scanning on larger screens */
+@media (min-width: 700px) {
+  .lit-row:nth-child(even) {
+    background: var(--gray-50);
+  }
+  .lit-row:nth-child(even):hover {
+    background: var(--green-50);
+  }
+}
