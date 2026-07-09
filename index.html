@@ -29,7 +29,13 @@
     gtag('config', 'G-S1Y8KN2MMF');
   </script>
 
-  <link rel="stylesheet" href="style.css" />
+  <!-- ===== Cache Control: always fetch fresh files ===== -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <link rel="stylesheet" href="style.css?v=20250709" />
+
 </head>
 <body>
 
@@ -215,15 +221,20 @@
     </div>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=20250709"></script>
 
-  <!-- ===== Register Service Worker (PWA) ===== -->
+
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-          .then(reg => console.log('[PWA] Service worker registered:', reg.scope))
-          .catch(err => console.warn('[PWA] SW registration failed:', err));
+        // Unregister any stale service worker, then re-register with fresh scope
+        navigator.serviceWorker.getRegistrations().then(regs => {
+          regs.forEach(r => r.unregister());
+        }).then(() => {
+          navigator.serviceWorker.register('sw.js?v=20250709')
+            .then(reg => console.log('[PWA] Service worker registered:', reg.scope))
+            .catch(err => console.warn('[PWA] SW registration failed:', err));
+        });
       });
     }
   </script>

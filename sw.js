@@ -1,86 +1,77 @@
 /* ============================================================
-   Service Worker for Obstetric Anesthesia TLVMC PWA
-   - Caches core assets for offline use
-   - Network-first strategy for PDFs, cache-first for shell
+   Service Worker for Obstetric Anesthesia TLVMC PWA  v2
+   Strategy:
+     - HTML / JS / CSS / JSON  → Network-first (always fresh)
+     - PDFs / images           → Cache-first (large, rarely change)
    ============================================================ */
 
-const CACHE_NAME = 'ob-anes-tlvmc-v1';
+const CACHE_NAME = 'ob-anes-tlvmc-v2';
 
-// Core app shell — always cache these
-const SHELL_ASSETS = [
-  '/OBAnesLis/',
-  '/OBAnesLis/index.html',
-  '/OBAnesLis/style.css',
-  '/OBAnesLis/app.js',
-  '/OBAnesLis/manifest.json',
-  '/OBAnesLis/design.png',
-  '/OBAnesLis/icons/icon-192x192.png',
-  '/OBAnesLis/icons/icon-512x512.png',
-  '/OBAnesLis/apple-touch-icon.png'
-];
-
-// ── Install: cache the app shell ─────────────────────────────
+// ── Install: pre-cache app icons only (small, stable) ────────
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      console.log('[SW] Caching app shell');
-      return cache.addAll(SHELL_ASSETS);
+      return cache.addAll([
+        '/OBAnesLis/icons/icon-192x192.png',
+        '/OBAnesLis/icons/icon-512x512.png',
+        '/OBAnesLis/apple-touch-icon.png'
+      ]);
     }).then(() => self.skipWaiting())
   );
 });
 
-// ── Activate: clean up old caches ────────────────────────────
+// ── Activate: delete ALL old caches ──────────────────────────
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(
-        keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => {
-            console.log('[SW] Deleting old cache:', key);
-            return caches.delete(key);
-          })
-      )
+      Promise.all(keys.map(key => {
+        console.log('[SW v2] Deleting cache:', key);
+        return caches.delete(key);
+      }))
     ).then(() => self.clients.claim())
   );
 });
 
-// ── Fetch: serve from cache, fall back to network ────────────
+// ── Fetch ─────────────────────────────────────────────────────
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
+  const path = url.pathname;
 
-  // PDFs & images: network-first (fresh content), fall back to cache
-  if (
-    url.pathname.endsWith('.pdf') ||
-    url.pathname.endsWith('.docx') ||
-    url.pathname.endsWith('.jpeg') ||
-    url.pathname.endsWith('.jpg')
-  ) {
+  // PDFs, DOCX, images → cache-first (large files, stable)
+  const isLargeFile =
+    path.endsWith('.pdf') ||
+    path.endsWith('.docx') ||
+    path.endsWith('.jpeg') ||
+    path.endsWith('.jpg') ||
+    path.endsWith('.tif');
+
+  if (isLargeFile) {
     event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          // Cache a copy as we fetch
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+      caches.match(event.request).then(cached => {
+        if (cached) return cached;
+        return fetch(event.request).then(response => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
+          }
           return response;
-        })
-        .catch(() => caches.match(event.request))
+        });
+      })
     );
     return;
   }
 
-  // App shell & assets: cache-first
+  // Everything else (HTML, JS, CSS, JSON, PNG icons) → network-first
+  // Always try the network; only fall back to cache if offline
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
-      return fetch(event.request).then(response => {
-        // Cache fresh responses
+    fetch(event.request)
+      .then(response => {
         if (response && response.status === 200 && response.type === 'basic') {
           const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
         }
         return response;
-      });
-    })
+      })
+      .catch(() => caches.match(event.request))
   );
 });
